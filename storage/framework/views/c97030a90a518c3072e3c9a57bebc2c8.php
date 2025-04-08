@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>hernando|Blogs</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        body {
+            background-color:rgb(206, 223, 239);
+            font-family: Arial, sans-serif;
+        }
+        .card {
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        .card-header {
+            background-color:rgb(124, 178, 237);
+            color: #fff;
+            border-radius: 12px 12px 0 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .list-group-item {
+            border-radius: 8px;
+            margin-bottom: 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .list-group-item:hover {
+            background-color: #f1f1f1;
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+        }
+        .btn {
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+        .btn:hover {
+            background-color:rgb(26, 151, 41);
+            transform: scale(1.05);
+        }
+        .btn-sm {
+            padding: 6px 12px;
+        }
+        .pagination {
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .pagination .page-item.active .page-link {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+        .pagination .page-link {
+            border-radius: 5px;
+        }
+        .text-muted {
+            font-size: 1.1em;
+        }
+    </style>
+</head>
+<body class="p-4">
+
+<div class="container-fluid d-flex justify-content-center align-items-center min-vh-100">
+    <div class="card shadow-lg p-4" style="width: 100%; max-width: 800px;">
+
+        <div class="card-header text-center text-black">
+            <h1>Add Posts Now</h1>
+        </div>
+     <br>
+        <a href="/posts/create" class="btn btn-outline-success">
+            <i class="bi bi-plus-circle"></i> Create New Post
+        </a>
+
+        <?php if($posts->isEmpty()): ?>
+            <p class="text-center text-muted">No content available.</p>
+        <?php else: ?>
+            <div class="list-group">
+                <?php $__currentLoopData = $posts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $post): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <div class="list-group-item d-flex justify-content-between align-items-center">
+                        <div>
+                            <a href="/posts/<?php echo e($post->id); ?>" class="text-decoration-none fw-bold text-dark">
+                                <?php echo e($post->title); ?>
+
+                            </a>
+                        </div>
+                        <div class="d-flex">
+                            <a href="/posts/<?php echo e($post->id); ?>/edit" class="btn btn-sm btn-warning mx-2 ">
+                                <i class="bi bi-pencil-square"></i> 
+                            </a>
+                            <form action="/posts/<?php echo e($post->id); ?>" method="POST" style="display:inline;">
+                                <?php echo csrf_field(); ?>
+                                <?php echo method_field('DELETE'); ?>
+                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this post?')">
+                                    <i class="bi bi-trash"></i> 
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+            </div>
+
+            <!-- Pagination Section -->
+            <?php echo e($posts->links()); ?>
+
+        <?php endif; ?>
+
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html><?php /**PATH C:\Users\Sealtiel Hernando\hernando_blogapp\resources\views/posts/index.blade.php ENDPATH**/ ?>
